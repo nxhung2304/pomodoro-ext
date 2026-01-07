@@ -1,0 +1,11 @@
+{
+  "name": "Pomodoro extension chrome",
+  "description": "A pomodoro extension for chrome",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "pomodoro.png"
+  },
+  "permissions": ["notifications", "alarms", "storage" ]
+}
