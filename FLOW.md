@@ -10,7 +10,7 @@
    ↓
 3. User clicks Start → Timer begins countdown
    ↓
-4. Badge shows countdown (24:59, 24:58...) 
+4. Badge shows countdown (24:59, 24:58...)
    ↓
 5. User can pause/resume anytime via popup
    ↓
@@ -37,13 +37,13 @@ User Interface ←←←←←←← State Updates ←←←←←←←←←�
 # Before (Demo structure)
 pomodoro-ext/
 ├── background.js          ❌ Delete
-├── workers/               ❌ Delete  
+├── workers/               ❌ Delete
 ├── content.js            ❌ Delete
 ├── manifest.json         ✅ Keep but modify
 ├── app.js                ✅ Keep → rename to popup.js
 └── index.html            ✅ Keep → rename to popup.html
 
-# After (Clean structure)  
+# After (Clean structure)
 pomodoro-ext/
 ├── manifest.json         ✅ Updated
 ├── popup/
@@ -61,22 +61,22 @@ pomodoro-ext/
   "name": "Pomodoro Timer",
   "version": "1.0.0",
   "description": "Simple Pomodoro technique timer",
-  
+
   "permissions": ["alarms", "storage", "notifications"],
-  
+
   "background": {
     "service_worker": "background/background.js"
   },
-  
+
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
-      "48": "icons/icon-48.png", 
+      "48": "icons/icon-48.png",
       "128": "icons/icon-128.png"
     }
   },
-  
+
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
@@ -158,7 +158,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       timerManager.start(message.mode);
       break;
     case 'pause':
-      timerManager.pause(); 
+      timerManager.pause();
       break;
     case 'reset':
       timerManager.reset();
@@ -189,25 +189,19 @@ chrome.runtime.sendMessage({action: 'start', mode: 'focus'});
 </head>
 <body>
   <div class="container">
-    <!-- Timer Display -->
-    <div class="timer-display">
-      <span id="timer-text">25:00</span>
-    </div>
-    
-    <!-- Mode Selector -->
     <div class="mode-selector">
       <button id="focus-btn" class="mode-btn active">Focus</button>
       <button id="short-break-btn" class="mode-btn">Short Break</button>
       <button id="long-break-btn" class="mode-btn">Long Break</button>
     </div>
-    
+
     <!-- Control Buttons -->
     <div class="controls">
       <button id="start-pause-btn" class="control-btn primary">Start</button>
       <button id="reset-btn" class="control-btn secondary">Reset</button>
     </div>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 </html>
@@ -236,7 +230,7 @@ class PopupController {
     this.startPauseBtn.addEventListener('click', () => {
       this.handleStartPause();
     });
-    
+
     this.resetBtn.addEventListener('click', () => {
       this.handleReset();
     });
@@ -274,11 +268,11 @@ new PopupController();
 // In background/background.js alarm listener
 async function updateBadge() {
   const state = await getState();
-  
+
   if (state.status === 'running') {
     const timeText = formatTimeForBadge(state.timeLeft);
     const color = state.mode === 'focus' ? '#FF6B6B' : '#4ECDC4';
-    
+
     chrome.action.setBadgeText({text: timeText});
     chrome.action.setBadgeBackgroundColor({color: color});
   } else {
@@ -298,17 +292,17 @@ function formatTimeForBadge(seconds) {
 ```javascript
 // When timer completes in alarm listener
 async function handleTimerComplete(state) {
-  const message = state.mode === 'focus' 
+  const message = state.mode === 'focus'
     ? 'Focus session complete! Time for a break.'
     : 'Break time over! Ready for another focus session?';
-    
+
   chrome.notifications.create({
     type: 'basic',
     iconUrl: 'icons/icon-48.png',
     title: 'Pomodoro Timer',
     message: message
   });
-  
+
   // Update state to completed
   state.status = 'completed';
   await saveState(state);
@@ -361,16 +355,16 @@ async function handleTimerComplete(state) {
 <!-- options/options.html -->
 <div class="settings">
   <h2>Pomodoro Settings</h2>
-  
+
   <label>Focus Duration (minutes):</label>
   <input type="number" id="focus-duration" value="25" min="1" max="60">
-  
+
   <label>Short Break (minutes):</label>
   <input type="number" id="short-break" value="5" min="1" max="30">
-  
+
   <label>Long Break (minutes):</label>
   <input type="number" id="long-break" value="15" min="5" max="60">
-  
+
   <button id="save-settings">Save Settings</button>
 </div>
 ```
@@ -386,7 +380,7 @@ async function handleTimerComplete(state) {
 3. Check console → No JavaScript errors
 ```
 
-### Phase 2 Testing  
+### Phase 2 Testing
 ```bash
 1. Open popup → Click Start button
 2. Check badge → Should show countdown
@@ -427,7 +421,7 @@ async function handleTimerComplete(state) {
 1. Install extension
    ↓
 2. Click icon → Clean popup opens
-   ↓ 
+   ↓
 3. Select Focus mode → Click Start
    ↓
 4. Badge shows "24m" countdown in red
