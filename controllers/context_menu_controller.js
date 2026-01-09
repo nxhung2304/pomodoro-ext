@@ -7,7 +7,7 @@ export async function onContextMenuClick(info) {
   const mode = _getModeBy(info.menuItemId)
 
   await executeWithManager(async (manager) => {
-    const state = await manager.start(mode)
+    const state = manager.start(mode)
 
     await startPomodoroAlarm()
 

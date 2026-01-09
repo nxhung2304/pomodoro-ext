@@ -1,21 +1,18 @@
-import { MODES } from "../constants/mode.js"
 import { STATUSES } from "../constants/status.js"
 import { startPomodoroAlarm, stopPomodoroAlarm } from "../services/alarm_service.js"
-import { showTimerCompleteNotification } from "../services/notification_service.js"
 import { executeWithManager } from "../services/pomodoro_service.js"
 
 export async function onPomodoroToggle() {
-  showTimerCompleteNotification(MODES.focus)
-  // await executeWithManager(async manager => {
-  //   const newState = manager.toggle()
-  //
-  //   if (newState.status === STATUSES.running) {
-  //     await startPomodoroAlarm()
-  //   } else {
-  //     await stopPomodoroAlarm()
-  //   }
-  //
-  //   return newState
-  // })
+  await executeWithManager(async manager => {
+    const newState = manager.toggle()
+
+    if (newState.status === STATUSES.running) {
+      await startPomodoroAlarm()
+    } else {
+      await stopPomodoroAlarm()
+    }
+
+    return newState
+  })
 }
 
