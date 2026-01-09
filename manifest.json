@@ -18,7 +18,7 @@
     "tabs"
   ],
   "background": {
-    "service_worker": "background/service_worker.js",
+    "service_worker": "src/background/service_worker.js",
     "type": "module"
   },
   "icons": {

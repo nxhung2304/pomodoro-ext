@@ -1,5 +1,5 @@
-import { STATUSES } from "../constants/status.js"
-import { formatToMinutesFrom } from "../helpers/string_helper.js"
+import { STATUSES } from "../../core/constants.js"
+import { formatToMinutesFrom } from "../../core/utils.js"
 
 export function updateBadge(state) {
   if (state.timeLeft === undefined || state.timeLeft === null) { throw new Error(`timeLeft = ${state.timeLeft} is invalid`) }

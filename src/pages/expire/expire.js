@@ -1,5 +1,5 @@
-import { MODES } from "../constants/mode.js";
-import { loadState } from "../services/time_storage_service.js"
+import { MODES } from "../../core/constants.js";
+import { loadState } from "../../core/storage.js"
 
 const MODE_DISPLAY_CONFIG = {
     [MODES.focus]: {

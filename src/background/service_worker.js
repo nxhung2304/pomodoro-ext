@@ -1,8 +1,7 @@
-import createContextMenus from "../views/context_menu_view.js"
-import { onPomodoroToggle } from "../controllers/pomodoro_controller.js"
-import { onContextMenuClick } from "../controllers/context_menu_controller.js"
-import { onAlarmTrigger } from "../controllers/alarm_controller.js"
-import { onStartSessionMessage } from "../controllers/message_controller.js"
+import createContextMenus, { onContextMenuClick } from "../features/context-menu/context_menu_handler.js"
+import { onPomodoroToggle } from "../features/toggle/toggle_handler.js"
+import { onAlarmTrigger } from "../features/alarm/alarm_handler.js"
+import { onStartSessionMessage } from "../features/messaging/messing_handler.js"
 
 // icon
 chrome.action.onClicked.addListener(async () => {
