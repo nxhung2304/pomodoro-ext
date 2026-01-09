@@ -89,11 +89,12 @@ State: {mode, status:'idle'|'running'|'paused', timeLeft, totalTime}
 - Different colors for modes
 - Clear when idle
 
-**#10: Notifications**
-- chrome.notifications.create() on timer completion
+**#10: Timer Completion Page**
+- Open HTML page on timer completion using chrome.tabs.create()
+- Create pages/completion.html with mode-specific messages
 - "Focus session complete!" / "Break time over!"
-- Optional sound notifications
-- Clear after user interaction
+- Pass mode via URL query params (?mode=focus)
+- Optional: "Start Next Session" button
 
 ### ⚙️ Settings & Enhancement
 **#11: Options Page**
@@ -176,6 +177,10 @@ pomodoro-ext/
 ├── options/                 # Phase 2
 │   ├── options.html
 │   └── options.js
+├── pages/                   # Standalone pages
+│   ├── completion.html
+│   ├── completion.js
+│   └── completion.css
 └── docs/                    # Development docs
     ├── claude.md
     ├── PROJECT_STRUCTURE.md
@@ -187,8 +192,9 @@ pomodoro-ext/
 - **popup/**: Extension popup UI (320px max width)
 - **background/**: Service worker for timer logic, alarms, storage
 - **options/**: Settings page for custom durations
+- **pages/**: Standalone pages (timer completion, etc.)
 - **icons/**: PNG icons for extension (16, 48, 128px)
 
 ## Current Working Issue
-**Issue #[4]**:
+**Issue #[10]**: Timer Completion Page
 

@@ -20,15 +20,9 @@ export default class PomodoroManager {
     }
 
     toggle() {
-        if (this.state.status === STATUSES.running) {
-            this.state.status = STATUSES.paused
-        } else {
-            this.state.status = STATUSES.running
-        }
+      this.state.status = TOGGLE_MAP[this.state.status]
 
-        this.state.status = TOGGLE_MAP[this.state.status]
-
-        return this.state
+      return this.state
     }
 
     tick() {
@@ -60,5 +54,11 @@ export default class PomodoroManager {
       this.state.timeLeft = DURATIONS[mode]
       this.state.mode = mode
       this.state.status = STATUSES.running 
+    }
+
+    complete()  {
+      this.state.status = STATUSES.idle
+      
+      return this.state
     }
 }

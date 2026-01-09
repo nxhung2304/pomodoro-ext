@@ -11,16 +11,31 @@ export async function onAlarmTrigger(alarm) {
   }
 
   await executeWithManager(async manager => {
-    const newState = manager.tick()
+    let updatedState = manager.tick()
 
-    const onTimerCompleted = newState.timeLeft === 0
+    const onTimerCompleted = updatedState.timeLeft === 0
     if (onTimerCompleted) {
       console.log('Timer completed');
 
+      updatedState = manager.complete()
+
       await stopPomodoroAlarm()
+
+      await openExpirePage()
     }
 
-    return newState
+    return updatedState
   })
 }
 
+async function openExpirePage() {
+  const expirePageUrl = chrome.runtime.getURL('pages/expire.html');
+
+  try {
+    await chrome.tabs.create({
+      url: expirePageUrl
+    })
+  } catch (error) {
+    console.error(`Error creating tab: ${error}`);  
+  }
+}
