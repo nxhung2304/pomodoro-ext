@@ -21,3 +21,7 @@ chrome.contextMenus.onClicked.addListener(async (info, _tab) => {
 chrome.alarms.onAlarm.addListener( async (alarm) => {
   await onAlarmTrigger(alarm)
 });
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(response.farewell);
+})
