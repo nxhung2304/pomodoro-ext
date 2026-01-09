@@ -6,7 +6,7 @@ export async function executeWithManager(callback) {
   const savedState = await loadState()
   const manager = new PomodoroManager(savedState)
 
-  const newState = callback(manager)
+  const newState = await callback(manager)
 
   await saveState(newState)
   updateBadge(newState)

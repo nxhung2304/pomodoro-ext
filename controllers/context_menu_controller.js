@@ -1,11 +1,18 @@
+import { MENU_IDS } from "../constants/menu_id.js";
 import { MODES } from "../constants/mode.js";
+import { startPomodoroAlarm } from "../services/alarm_service.js";
 import { executeWithManager } from "../services/pomodoro_service.js";
-import { MENU_IDS } from "../views/context_menu_view.js";
 
 export async function onContextMenuClick(info) {
   const mode = _getModeBy(info.menuItemId)
 
-  await executeWithManager(manager => manager.start(mode))
+  await executeWithManager(async (manager) => {
+    const state = await manager.start(mode)
+
+    await startPomodoroAlarm()
+
+    return state
+  })
 }
 
 function _getModeBy(menuItemId) {
