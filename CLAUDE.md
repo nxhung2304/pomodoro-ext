@@ -190,5 +190,5 @@ pomodoro-ext/
 - **icons/**: PNG icons for extension (16, 48, 128px)
 
 ## Current Working Issue
-**Issue #[1]**:
+**Issue #[4]**:
 

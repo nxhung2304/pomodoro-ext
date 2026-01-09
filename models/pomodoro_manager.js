@@ -49,8 +49,6 @@ export default class PomodoroManager {
       if (!existedMode) { throw new Error(`Mode ${mode} is not valid`) }
 
       this.reset(mode)
-      // TODO: use Chrome Alarms API to trigger stick method
-      // this.tick() 
       
       return this.state
     }
