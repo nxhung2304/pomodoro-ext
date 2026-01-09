@@ -1,6 +1,6 @@
-import { updateBadge } from "../controllers/badge_controller.js";
-import PomodoroManager from "../models/pomodoro_manager.js";
-import { loadState, saveState } from "./time_storage_service.js";
+import { updateBadge } from "../features/badge/badge_handler.js";
+import PomodoroManager from "./timer.js";
+import { loadState, saveState } from "./storage.js";
 
 export async function executeWithManager(callback) {
   const savedState = await loadState()

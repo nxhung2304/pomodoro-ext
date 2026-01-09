@@ -1,5 +1,4 @@
-import { MODES } from "../constants/mode.js";
-import { STATUSES } from "../constants/status.js";
+import { MODES, STATUSES } from "./constants.js";
 
 const TOGGLE_MAP = {
   [STATUSES.running]: STATUSES.paused,
@@ -36,7 +35,7 @@ export default class PomodoroManager {
     }
     
     start(mode) {
-      console.log('[TimeManager] start() called');
+      console.log('[PomodoroManager] start() called');
 
       const existedMode = Object.values(MODES).includes(mode)
  
@@ -48,7 +47,7 @@ export default class PomodoroManager {
     }
 
     reset(mode) {
-      console.log('[TimeManage] reset() called');
+      console.log('[PomodoroManager] reset() called');
 
       this.state.totalTime = DURATIONS[mode]
       this.state.timeLeft = DURATIONS[mode]

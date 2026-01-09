@@ -1,5 +1,26 @@
-import { POMODORO_TICK_ALARM_KEY, stopPomodoroAlarm } from "../services/alarm_service.js"
-import { executeWithManager } from "../services/pomodoro_service.js"
+import { executeWithManager } from "../../core/timer_executor.js"
+
+export const POMODORO_TICK_ALARM_KEY = 'pomodoro-tick'
+
+export async function startPomodoroAlarm() {
+  console.log('[AlarmHandler] startPomodoroAlarm() called')
+
+  await clearAlarm();
+
+  chrome.alarms.create(POMODORO_TICK_ALARM_KEY,  { periodInMinutes: 1 / 60 })
+}
+
+export async function stopPomodoroAlarm() {
+  console.log('[AlarmHandler] stopPomodoroAlarm() called')
+
+  await clearAlarm();
+}
+
+async function clearAlarm() {
+  console.log('[AlarmHandler] clearAlarm() called')
+
+  await chrome.alarms.clear(POMODORO_TICK_ALARM_KEY)
+}
 
 export async function onAlarmTrigger(alarm) {
   const alarmName = alarm.name
@@ -29,7 +50,7 @@ export async function onAlarmTrigger(alarm) {
 }
 
 async function openExpirePage() {
-  const expirePageUrl = chrome.runtime.getURL('pages/expire.html');
+  const expirePageUrl = chrome.runtime.getURL('src/pages/expire/expire.html');
 
   try {
     await chrome.tabs.create({
