@@ -29,6 +29,10 @@ const MODE_DISPLAY_CONFIG = {
   },
 };
 
+/**
+ * Initializes the timer expiration page.
+ * Loads current state, renders UI with appropriate config, and sets up button listeners.
+ */
 async function init() {
   const state = await loadState();
   const config = MODE_DISPLAY_CONFIG[state.mode];
@@ -38,6 +42,12 @@ async function init() {
   setupButtonListener(config);
 }
 
+/**
+ * Renders the timer expiration page UI with mode-specific content.
+ * Updates the title and button text based on the completed timer mode.
+ *
+ * @param config - Display configuration containing title, button text, and styling
+ */
 function renderExpirePage(config: DISPLAY_MODE) {
   const h1Ele = document.querySelector("h1")
   const buttonEle = document.querySelector('.button');
@@ -61,6 +71,12 @@ function renderExpirePage(config: DISPLAY_MODE) {
   buttonEle.classList.add(config.buttonClass)
 }
 
+/**
+ * Sets up click event listener on the action button.
+ * Sends message to start next session and closes the current tab.
+ *
+ * @param config - Display configuration containing the next mode to start
+ */
 function setupButtonListener(config: DISPLAY_MODE) {
   const buttonEle = document.querySelector(`.${config.buttonClass}`);
 

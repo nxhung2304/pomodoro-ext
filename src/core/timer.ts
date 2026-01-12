@@ -13,12 +13,24 @@ export default class PomodoroManager {
     this.state = state
   }
 
+  /**
+   * Toggles the timer between running and paused states.
+   * Idle timers will start when toggled
+   *
+   * @returns The updated Pomodoro state with new status
+   */
   toggle(): PomodoroState {
     this.state.status = TOGGLE_MAP[this.state.status]
 
     return this.state
   }
 
+  /**
+   * Decrements the timer by one second if running.
+   * Does nothing if timer is paused or idle.
+   *
+   * @returns The updated Pomodoro state with decremented timeLeft
+   */
   tick(): PomodoroState {
     if (this.state.status !== STATUSES.running) return this.state
 
@@ -29,6 +41,13 @@ export default class PomodoroManager {
     return this.state
   }
 
+  /**
+    * Starts a new Pomodoro session with the specified mode.
+    * Resets the timer to the mode's full duration and sets status to running
+    *
+    * @param mode - The timer mode: 'focus', 'shortBreak' or 'longBreak'
+    * @returns The reset state with timer running
+    */
   start(mode: ModeValue): PomodoroState {
     console.log(`[PomodoroManager] start() called at ${Date.now()}`);
 
@@ -37,6 +56,11 @@ export default class PomodoroManager {
     return this.state
   }
 
+  /**
+   * Reset state with timer running
+   *
+   * @param mode - The timer mode: 'focus', 'shortBreak', or 'longBreak'
+   */
   reset(mode: ModeValue) {
     console.log(`[PomodoroManager] reset() called at ${Date.now()}`);
 
@@ -46,6 +70,12 @@ export default class PomodoroManager {
     this.state.status = STATUSES.running
   }
 
+  /**
+   * Marks the timer as completed and sets status to idle
+   * Called when timeLeft reaches zero.
+   *
+   * @returns The updated state with idle status
+   */
   complete(): PomodoroState {
     this.state.status = STATUSES.idle
 
