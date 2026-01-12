@@ -4,8 +4,7 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.33",
-    "chrome-types": "^0.1.409"
+    "@types/chrome": "^0.1.33"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
