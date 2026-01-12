@@ -13,11 +13,8 @@
     "types": [
       "chrome"
     ],
-    // TODO: Add outDir to specify compiled output location
     "outDir": "./dist",
-    // TODO: Add rootDir to preserve src/ folder structure
     "rootDir": "./src",
-    // TODO: Add sourceMap for debugging (optional but helpful)
     "sourceMap": true
   },
   "include": [

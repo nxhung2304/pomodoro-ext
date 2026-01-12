@@ -3,7 +3,6 @@ import { isObject, isOneOf } from "./utils.js"
 
 const KEY = 'time-manager'
 
-
 function isPomodoroState(data: unknown): data is PomodoroState {
     if (!isObject(data)) return false
 

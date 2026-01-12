@@ -2,7 +2,6 @@ import { DURATIONS, MODES, ModeValue, PomodoroState, STATUSES, StatusValue } fro
 
 const TOGGLE_MAP: Record<StatusValue, StatusValue> = {
   [STATUSES.running]: STATUSES.paused,
-
   [STATUSES.paused]: STATUSES.running,
   [STATUSES.idle]: STATUSES.running,
 }
