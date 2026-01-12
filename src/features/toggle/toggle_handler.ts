@@ -1,6 +1,6 @@
-import { STATUSES } from "../../core/constants.js"
 import { startPomodoroAlarm, stopPomodoroAlarm } from "../alarm/alarm_handler.js"
 import { executeWithManager } from "../../core/timer_executor.js"
+import { STATUSES } from "../../core/types.js"
 
 export async function onPomodoroToggle() {
   await executeWithManager(async manager => {

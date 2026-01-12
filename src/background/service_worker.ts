@@ -2,6 +2,8 @@ import createContextMenus, { onContextMenuClick } from "../features/context-menu
 import { onPomodoroToggle } from "../features/toggle/toggle_handler.js"
 import { onAlarmTrigger } from "../features/alarm/alarm_handler.js"
 import { onStartSessionMessage } from "../features/messaging/messing_handler.js"
+import { isObject, isOneOf, isString } from "../core/utils.js";
+import { ACTIONS, MessageRequest, MODES, ModeValue } from "../core/types.js";
 
 // icon
 chrome.action.onClicked.addListener(async () => {
@@ -18,21 +20,40 @@ chrome.contextMenus.onClicked.addListener(async (info, _tab) => {
 })
 
 // alarm
-chrome.alarms.onAlarm.addListener( async (alarm) => {
+chrome.alarms.onAlarm.addListener(async (alarm) => {
   await onAlarmTrigger(alarm)
 });
 
+
 // message
 chrome.runtime.onMessage.addListener(
-  async function(request, _sender, _sendResponse) {
+  function (request, _sender, _sendResponse) {
     console.log("Message received:", request);
 
-    const action = request.action
+    if (!isValidMessage(request)) {
+      console.error("[ServiceWorker] Invalid request:", request);
 
-    if  (action === "start") {
-      const mode = request.mode
+      return
+    }
 
-      await onStartSessionMessage(mode)
+    if (request.action === ACTIONS.start) {
+      (async () => {
+
+        await onStartSessionMessage(request.mode)
+      })()
     }
   }
 )
+
+function isValidMessage(request: unknown): request is MessageRequest {
+  if (!isObject(request)) return false
+  if (!isString(request.action)) return false
+
+  switch (request.action) {
+    case ACTIONS.start:
+      return isOneOf(MODES, request.mode)
+
+    default:
+      return false
+  }
+}

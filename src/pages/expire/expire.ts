@@ -1,25 +1,32 @@
-import { MODES } from "../../core/constants.js";
 import { loadState } from "../../core/storage.js"
+import { ACTIONS, MODES, ModeValue } from "../../core/types.js";
+
+type DISPLAY_MODE = {
+  title: string,
+  buttonText: string,
+  nextMode: ModeValue,
+  buttonClass: string
+}
 
 const MODE_DISPLAY_CONFIG = {
-    [MODES.focus]: {
-      title: 'Focus Complete!',
-      buttonText: 'Start Break',
-      nextMode: MODES.shortBreak,
-      buttonClass: 'short-break'
-    },
-    [MODES.shortBreak]: {
-      title: 'Short Break Complete!',
-      buttonText: 'Start Focus',
-      nextMode: MODES.focus,
-      buttonClass: 'focus'
-    },
-    [MODES.longBreak]: {
-      title: 'Long Break Complete!',
-      buttonText: 'Start Focus',
-      nextMode: MODES.focus,
-      buttonClass: 'focus'
-    },
+  [MODES.focus]: {
+    title: 'Focus Complete!',
+    buttonText: 'Start Break',
+    nextMode: MODES.shortBreak,
+    buttonClass: 'short-break'
+  },
+  [MODES.shortBreak]: {
+    title: 'Short Break Complete!',
+    buttonText: 'Start Focus',
+    nextMode: MODES.focus,
+    buttonClass: 'focus'
+  },
+  [MODES.longBreak]: {
+    title: 'Long Break Complete!',
+    buttonText: 'Start Focus',
+    nextMode: MODES.focus,
+    buttonClass: 'focus'
+  },
 };
 
 async function init() {
@@ -31,28 +38,51 @@ async function init() {
   setupButtonListener(config);
 }
 
-function renderExpirePage(config) {
+function renderExpirePage(config: DISPLAY_MODE) {
   const h1Ele = document.querySelector("h1")
-  const button = document.querySelector('.button');
+  const buttonEle = document.querySelector('.button');
+
+  if (buttonEle === null) {
+    console.warn("Button is not present")
+
+    return
+  }
+
+  if (h1Ele === null) {
+    console.warn("h1 is not present")
+
+    return
+  }
+
 
   h1Ele.textContent = config.title
 
-  button.textContent = config.buttonText
-  button.classList.add(config.buttonClass)
+  buttonEle.textContent = config.buttonText
+  buttonEle.classList.add(config.buttonClass)
 }
 
-function setupButtonListener(config) {
+function setupButtonListener(config: DISPLAY_MODE) {
   const buttonEle = document.querySelector(`.${config.buttonClass}`);
 
-  buttonEle.addEventListener('click', () => {
-    chrome.runtime.sendMessage({
-      action: 'start',
-      mode: config.nextMode
-    })
+  if (buttonEle === null) {
+    console.warn("Button is not present")
+    return
+  }
 
-    chrome.tabs.getCurrent((tab) => {
-      chrome.tabs.remove(tab.id);
+  buttonEle.addEventListener('click', async () => {
+    chrome.runtime.sendMessage({
+      action: ACTIONS.start,
+      mode: config.nextMode
     });
+
+    try {
+      const tab = await chrome.tabs.getCurrent();
+      if (tab?.id) {
+        await chrome.tabs.remove(tab.id);
+      }
+    } catch (error) {
+      console.error('Error removing tab:', error);
+    }
   });
 }
 

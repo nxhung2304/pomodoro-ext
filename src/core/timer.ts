@@ -1,63 +1,55 @@
-import { MODES, STATUSES } from "./constants.js";
+import { DURATIONS, MODES, ModeValue, PomodoroState, STATUSES, StatusValue } from "./types.js";
 
-const TOGGLE_MAP = {
+const TOGGLE_MAP: Record<StatusValue, StatusValue> = {
   [STATUSES.running]: STATUSES.paused,
 
   [STATUSES.paused]: STATUSES.running,
   [STATUSES.idle]: STATUSES.running,
 }
 
-const DURATIONS = {
-    focus: 1500, // 25m
-    shortBreak: 300, // 5m
-    longBreak: 900 // 15m
-};
-
 export default class PomodoroManager {
-    constructor(state) {
-        this.state = state
+  state: PomodoroState;
+
+  constructor(state: PomodoroState) {
+    this.state = state
+  }
+
+  toggle(): PomodoroState {
+    this.state.status = TOGGLE_MAP[this.state.status]
+
+    return this.state
+  }
+
+  tick(): PomodoroState {
+    if (this.state.status !== STATUSES.running) return this.state
+
+    if (this.state.timeLeft > 0) {
+      this.state.timeLeft -= 1
     }
 
-    toggle() {
-      this.state.status = TOGGLE_MAP[this.state.status]
+    return this.state
+  }
 
-      return this.state
-    }
+  start(mode: ModeValue): PomodoroState {
+    console.log(`[PomodoroManager] start() called at ${Date.now()}`);
 
-    tick() {
-        if (this.state.status !== STATUSES.running) return this.state
+    this.reset(mode)
 
-        if (this.state.timeLeft > 0) {
-            this.state.timeLeft -= 1
-        }
+    return this.state
+  }
 
-        return this.state
-    }
-    
-    start(mode) {
-      console.log('[PomodoroManager] start() called');
+  reset(mode: ModeValue) {
+    console.log(`[PomodoroManager] reset() called at ${Date.now()}`);
 
-      const existedMode = Object.values(MODES).includes(mode)
- 
-      if (!existedMode) { throw new Error(`Mode ${mode} is not valid`) }
+    this.state.totalTime = DURATIONS[mode]
+    this.state.timeLeft = DURATIONS[mode]
+    this.state.mode = mode
+    this.state.status = STATUSES.running
+  }
 
-      this.reset(mode)
-      
-      return this.state
-    }
+  complete(): PomodoroState {
+    this.state.status = STATUSES.idle
 
-    reset(mode) {
-      console.log('[PomodoroManager] reset() called');
-
-      this.state.totalTime = DURATIONS[mode]
-      this.state.timeLeft = DURATIONS[mode]
-      this.state.mode = mode
-      this.state.status = STATUSES.running 
-    }
-
-    complete()  {
-      this.state.status = STATUSES.idle
-      
-      return this.state
-    }
+    return this.state
+  }
 }

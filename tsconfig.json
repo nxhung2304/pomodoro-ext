@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": [
+      "chrome"
+    ],
+    // TODO: Add outDir to specify compiled output location
+    "outDir": "./dist",
+    // TODO: Add rootDir to preserve src/ folder structure
+    "rootDir": "./src",
+    // TODO: Add sourceMap for debugging (optional but helpful)
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
