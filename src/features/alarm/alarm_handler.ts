@@ -57,6 +57,6 @@ async function openExpirePage() {
       url: expirePageUrl
     })
   } catch (error) {
-    console.error(`Error creating tab: ${error}`);  
+    console.error(`Error creating tab: ${error}`);
   }
 }
