@@ -45,6 +45,13 @@ chrome.runtime.onMessage.addListener(
   }
 )
 
+/**
+ * Validates an unknown request object matches the MessageRequest type.
+ * Checks action field exists and validates mode for start actions.
+ *
+ * @param request - The request object to validate (from chrome.runtime.sendMessage)
+ * @returns True if request is a valid MessageRequest, with type narrowing
+ */
 function isValidMessage(request: unknown): request is MessageRequest {
   if (!isObject(request)) return false
   if (!isString(request.action)) return false

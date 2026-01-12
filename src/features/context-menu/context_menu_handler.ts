@@ -26,6 +26,10 @@ const MENU_ITEMS = [
   },
 ] as const
 
+/**
+ * Creates Pomodoro context menu items in Chrome extension.
+ * Removes all existing context menus and creates fresh menu items for focus, short break, and long break.
+ */
 export default function createContextMenus() {
   chrome.contextMenus.removeAll(() => {
     for (const menuItem of MENU_ITEMS) {
@@ -41,6 +45,12 @@ export default function createContextMenus() {
   })
 }
 
+/**
+ * Handles context menu click events.
+ * Starts the Pomodoro timer with the mode corresponding to the clicked menu item.
+ *
+ * @param info - Context menu click data containing the selected menu item ID
+ */
 export async function onContextMenuClick(info: chrome.contextMenus.OnClickData) {
   const mode = _getModeBy(info.menuItemId)
 
@@ -53,6 +63,14 @@ export async function onContextMenuClick(info: chrome.contextMenus.OnClickData) 
   })
 }
 
+/**
+ * Maps a context menu item ID to its corresponding Pomodoro mode.
+ *
+ * @param menuItemId - The context menu item ID to map
+ * @returns The corresponding mode value
+ * @throws {Error} If the menu item ID doesn't match any known mode
+ * @internal
+ */
 function _getModeBy(menuItemId: string | number): ModeValue {
   let mode
 
